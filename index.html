@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rock Paper Scissors</title>
+    <!-- Stylesheet link -->
+    <link rel="stylesheet" href="style.css">
+    <!-- javascript -->
+    <script src="script.js" defer></script>
+    <!-- Google fonts link -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cousine&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container">
+        <div class="user-controls">
+            <button type="button" class="btn-control" value="rock">✊</button>
+            <button type="button" class="btn-control" value="paper">✋</button>
+            <button type="button" class="btn-control" value="scissors">✌</button>
+        </div>
+        <div class="match-result" id="matchResult">
+            <div id="user">👦: <span id="userChoice">✊</span></div>
+            <div id="robot"><span id="robotChoice">✊</span> : <img src="images/robot.svg" alt="robot"></div>
+        </div>
+        <div id="winner"></div>
+        <div id="totalScore">User: 0 - Robot: 0</div>
+        <div class="game-controls">
+            <input type="button" value="Reset Score" class="btn-reset">
+        </div>
+    </div>
+
+</body>
+
+</html>
