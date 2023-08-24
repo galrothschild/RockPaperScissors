@@ -17,6 +17,18 @@ body {
     justify-items: center;
     background-color: var(--dark-blue-gray);
     font-family: 'Cousine', monospace;
+    color: var(--white);
+}
+
+#countdown {
+    font-size: 7rem;
+    display: none;
+}
+
+.mainHeading {
+    display: flex;
+    align-items: center;
+    font-size: 4rem;
 }
 
 .container {
@@ -49,6 +61,7 @@ body {
 
 :is(.btn-control, .btn-reset):hover {
     filter: brightness(0.92);
+    cursor: pointer;
 }
 
 :is(.btn-control, .btn-reset):focus-visible {
@@ -62,7 +75,6 @@ body {
 }
 
 .container>div {
-    color: var(--white);
     font-size: 3rem;
 }
 
@@ -86,7 +98,6 @@ body {
 
 .btn-reset {
     padding: 16px;
-    color: var(--white);
     background-color: var(--light-blue);
     font-size: 2rem;
     border: none;

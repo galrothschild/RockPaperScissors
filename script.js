@@ -32,6 +32,27 @@ function getUserControls() {
 
 // ~~~~~~~~Game~~~~~~~~~
 
+// Countdown
+
+function countdown(duration, msPerIter) {
+    return new Promise(resolve => {
+        console.log("Hi");
+
+        let countdown = document.getElementById("countdown");
+        countdown.innerText = `${duration}`;
+        countdown.style.display = "block";
+        let id = setInterval(() => {
+            if (duration = 0) {
+                countdown.style.display = "none";
+                clearInterval(id);
+                resolve();
+            } else {
+                countdown.innerText = `${duration}`;
+                duration--;
+            }
+        }, msPerIter);
+    });
+}
 // Updating scores
 function updateScore(scoreMap) {
     const scores = document.getElementById("totalScore");
@@ -44,7 +65,7 @@ function updateScore(scoreMap) {
 }
 
 // Choosing for robot
-function chooseRobot() {
+function setRobotChoice() {
     const robotChoice = document.getElementById("robotChoice");
     const choice = optionsArr[randomInRange(0, 2)];
     robotChoice.innerText = options.get(choice);
@@ -53,16 +74,18 @@ function chooseRobot() {
 
 // Displaying user's choice
 function setUserPlay(choice) {
-    let usersChoice = document.getElementById("userChoice");
-    usersChoice.innerText = options.get(choice);
+    let userChoice = document.getElementById("userChoice");
+    userChoice.innerText = options.get(choice);
 
 }
 // game course
-function game(event) {
-    let usersChoice = event.currentTarget.value;
-    setUserPlay(usersChoice);
-    let robotsChoice = chooseRobot();
-    let winner = getWinner(usersChoice, robotsChoice);
+async function game(event) {
+    console.log("object");
+    await countdown(3, 800);
+    let userChoice = event.currentTarget.value;
+    setUserPlay(userChoice);
+    let robotChoice = setRobotChoice();
+    let winner = getWinner(userChoice, robotChoice);
     updateWinner(winner);
     updateScore(scoreMap);
 }
@@ -79,10 +102,10 @@ function updateWinner(winner) {
 
 }
 // checking who won
-function getWinner(usersChoice, robotsChoice) {
-    if (robotsChoice === usersChoice) {
+function getWinner(userChoice, robotChoice) {
+    if (robotChoice === userChoice) {
         return "It's a draw!";
-    } else if (victoryMap.get(usersChoice) === robotsChoice) {
+    } else if (victoryMap.get(userChoice) === robotChoice) {
         scoreMap.set("player", scoreMap.get("player") + 1);
         return "You win!";
     } else {
@@ -115,4 +138,4 @@ function init() {
     setResetButton();
 }
 
-init();
+document.body.onload = init();
