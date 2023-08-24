@@ -7,7 +7,7 @@ const options = new Map([["rock", "✊"], ["paper", "✋"], ["scissors", "✌"]]
 const optionsArr = ["rock", "paper", "scissors"];
 // Getting the match result div
 let scoreMap = new Map([["player", 0], ["robot", 0]]);
-
+const userControls = document.querySelectorAll(".user-controls>.btn-control");
 
 
 //Getting a random int in range
@@ -23,8 +23,7 @@ function resetScore() {
 }
 
 // setting user controls even listeners
-function getUserControls() {
-    const userControls = document.querySelectorAll(".user-controls>.btn-control");
+function setUserControls() {
     userControls.forEach((button) => {
         button.addEventListener("click", game);
     });
@@ -35,59 +34,72 @@ function getUserControls() {
 // Countdown
 
 function countdown(duration, msPerIter) {
-    return new Promise(resolve => {
-        console.log("Hi");
 
+    return new Promise(resolve => {
+        userControls.forEach((button) => {
+            button.setAttribute("disabled", "true");
+        });
         let countdown = document.getElementById("countdown");
-        countdown.innerText = `${duration}`;
+        setRobotChoice("Nothing");
+        setUserChoice("Nothing");
         countdown.style.display = "block";
+        countdown.innerText = `${duration}`;
         let id = setInterval(() => {
-            if (duration = 0) {
+            if (duration <= 1) {
                 countdown.style.display = "none";
-                clearInterval(id);
                 resolve();
+                clearInterval(id);
             } else {
-                countdown.innerText = `${duration}`;
                 duration--;
+                countdown.innerText = `${duration}`;
             }
         }, msPerIter);
     });
 }
 // Updating scores
 function updateScore(scoreMap) {
-    const scores = document.getElementById("totalScore");
-    let scoresText = "";
-    scoreMap.forEach((val, key) => {
-        scoresText += `${key}: ${val} - `;
-    });
-    scores.innerText = scoresText.slice(0, scoresText.length - 2);
-    localStorage.setItem("scoreMap", JSON.stringify([...scoreMap]));
+    const playerScore = document.getElementById("playerScore");
+    const robotScore = document.getElementById("robotScore");
+    playerScore.innerText = `${scoreMap.get("player")}`;
+    robotScore.innerText = `${scoreMap.get("robot")}`;
+    sessionStorage.setItem("scoreMap", JSON.stringify([...scoreMap]));
 }
 
 // Choosing for robot
-function setRobotChoice() {
-    const robotChoice = document.getElementById("robotChoice");
-    const choice = optionsArr[randomInRange(0, 2)];
-    robotChoice.innerText = options.get(choice);
-    return choice;
+function getRobotChoice() {
+    return [...options.keys()][randomInRange(0, 2)];
 }
+function setRobotChoice(choice) {
+    const robotChoice = document.getElementById("robotChoice");
+    if (options.has(choice)) {
+        robotChoice.innerText = options.get(choice);
+    } else {
+        robotChoice.innerText = "?";
+    }
 
+}
 // Displaying user's choice
-function setUserPlay(choice) {
+function setUserChoice(choice) {
     let userChoice = document.getElementById("userChoice");
-    userChoice.innerText = options.get(choice);
-
+    if (options.has(choice)) {
+        userChoice.innerText = options.get(choice);
+    } else {
+        userChoice.innerText = "?";
+    }
 }
 // game course
 async function game(event) {
-    console.log("object");
-    await countdown(3, 800);
-    let userChoice = event.currentTarget.value;
-    setUserPlay(userChoice);
-    let robotChoice = setRobotChoice();
+    await countdown(3, 500);
+    let userChoice = event.srcElement.value;
+    setUserChoice(userChoice);
+    let robotChoice = getRobotChoice();
+    setRobotChoice(robotChoice);
     let winner = getWinner(userChoice, robotChoice);
     updateWinner(winner);
     updateScore(scoreMap);
+    userControls.forEach((button) => {
+        button.removeAttribute("disabled");
+    });
 }
 
 // displaying winner
@@ -117,10 +129,10 @@ function getWinner(userChoice, robotChoice) {
 
 // storage support
 function setScoreMap() {
-    if (localStorage.getItem("scoreMap") === null) {
-        localStorage.setItem("scoreMap", JSON.stringify([...scoreMap]));
+    if (sessionStorage.getItem("scoreMap") === null) {
+        sessionStorage.setItem("scoreMap", JSON.stringify([...scoreMap]));
     } else {
-        scoreMap = new Map(JSON.parse(localStorage.getItem("scoreMap")));
+        scoreMap = new Map(JSON.parse(sessionStorage.getItem("scoreMap")));
         updateScore(scoreMap);
     }
 }
@@ -134,8 +146,8 @@ function setResetButton() {
 // initializing the game
 function init() {
     setScoreMap();
-    getUserControls();
+    setUserControls();
     setResetButton();
 }
 
-document.body.onload = init();
+document.body.onload = init;
