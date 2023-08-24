@@ -4,7 +4,6 @@ const controls = document.querySelectorAll(".btn-control");
 const victoryMap = new Map([["rock", "scissors"], ["paper", "rock"], ["scissors", "paper"]]);
 // Setting my bot's options
 const options = new Map([["rock", "✊"], ["paper", "✋"], ["scissors", "✌"]]);
-const optionsArr = ["rock", "paper", "scissors"];
 // Getting the match result div
 let scoreMap = new Map([["player", 0], ["robot", 0]]);
 const userControls = document.querySelectorAll(".user-controls>.btn-control");
