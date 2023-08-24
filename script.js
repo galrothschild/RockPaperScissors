@@ -36,6 +36,7 @@ function setUserControls() {
 function countdown(duration, msPerIter) {
 
     return new Promise(resolve => {
+        document.getElementById("winner").innerText = "";
         userControls.forEach((button) => {
             button.setAttribute("disabled", "true");
         });
