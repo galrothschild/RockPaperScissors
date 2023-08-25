@@ -90,7 +90,7 @@ function setUserChoice(choice) {
 // game course
 async function game(event) {
     console.log(event);
-    await countdown(3, 500);
+    await countdown(3, 100);
     console.log(event);
     let userChoice = event.target.value;
     setUserChoice(userChoice);
